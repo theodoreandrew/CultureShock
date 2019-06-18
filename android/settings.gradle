@@ -1,0 +1,3 @@
+rootProject.name = 'CultureShock'
+
+include ':app'
