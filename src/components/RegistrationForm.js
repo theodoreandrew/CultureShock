@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Text } from "react-native";
 
-import { Container, CardSection, Button, InputField } from "./common";
+import { Container, CardSection, Button, InputField, Spinner } from "./common";
 import ProfilePic from "./ProfilePic";
 
-import { emailForSignUp, passwordForSignUp } from "../actions";
+import { emailForSignUp, passwordForSignUp, signUserUp } from "../actions";
 
 class RegistrationForm extends React.Component {
   /**
@@ -18,12 +19,21 @@ class RegistrationForm extends React.Component {
     this.props.passwordForSignUp(password);
   };
 
-  onPress = () => {
-    console.log(this.props.email);
+  onButtonPress = () => {
+    const { email, password } = this.props;
+
+    this.props.signUserUp({ email, password });
+  };
+
+  renderButton = () => {
+    if (this.props.loading) {
+      return <Spinner size="large" />;
+    }
+
+    return <Button onPress={this.onButtonPress}>Register</Button>;
   };
 
   render() {
-    console.log(this.props.password);
     return (
       <Container>
         <CardSection>
@@ -52,12 +62,21 @@ class RegistrationForm extends React.Component {
         </CardSection>
 
         <CardSection>
-          <Button onPress={this.onPress}>Register</Button>
+          <Text style={styles.textErrorStyle}>{this.props.error}</Text>
+          {this.renderButton()}
         </CardSection>
       </Container>
     );
   }
 }
+
+const styles = {
+  textErrorStyle: {
+    color: "red",
+    fontSize: 20,
+    alignSelf: "center"
+  }
+};
 
 /**
  * Reducers return an object with state in it. In this mapStateToProps,
@@ -68,11 +87,13 @@ class RegistrationForm extends React.Component {
 const mapStateToProps = state => {
   return {
     email: state.auth.email,
-    password: state.auth.password
+    password: state.auth.password,
+    error: state.auth.error,
+    loading: state.auth.loading
   };
 };
 
 export default connect(
   mapStateToProps,
-  { emailForSignUp, passwordForSignUp }
+  { emailForSignUp, passwordForSignUp, signUserUp }
 )(RegistrationForm);

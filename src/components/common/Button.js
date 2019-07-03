@@ -18,7 +18,7 @@ const Button = props => {
    */
   return (
     <TouchableHighlight
-      style={props.isDisabled ? disabledButtonStyle : registrationButtonStyle}
+      style={registrationButtonStyle}
       onPress={props.onPress}
       disabled={props.isDisabled}
     >
@@ -40,7 +40,6 @@ const defaultButtonStyle = {
   borderWidth: 0,
   padding: 15,
   borderRadius: 5,
-  flex: 1,
   alignSelf: "stretch",
   shadowColor: "#b2b2b2",
   shadowOffset: { width: 0, height: 1 },
