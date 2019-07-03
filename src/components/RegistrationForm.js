@@ -18,6 +18,10 @@ class RegistrationForm extends React.Component {
     this.props.passwordForSignUp(password);
   };
 
+  onPress = () => {
+    console.log(this.props.email);
+  };
+
   render() {
     console.log(this.props.password);
     return (
@@ -45,6 +49,10 @@ class RegistrationForm extends React.Component {
             editable={false}
             selectTextOnFocus={false}
           />
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onPress}>Register</Button>
         </CardSection>
       </Container>
     );
