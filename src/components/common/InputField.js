@@ -15,14 +15,17 @@ const InputField = ({
   value,
   onChangeText,
   secureTextEntry,
-  autoCapitalize
+  autoCapitalize,
+  isValid
 }) => {
-  const { inputStyle } = styles;
+  // const { invalidStyle } = styles;
+
+  const curStyle = styleDecision(isValid);
 
   return (
     <View>
       <TextInput
-        style={inputStyle}
+        style={curStyle}
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}
@@ -34,14 +37,28 @@ const InputField = ({
   );
 };
 
+const styleDecision = flag => {
+  if (flag === null || !flag) {
+    return defaultInputStyle;
+  }
+  return styles.invalidStyle;
+};
+
 // Styling for the text input
+
+const defaultInputStyle = {
+  borderWidth: 1,
+  padding: 15,
+  borderColor: "#A9AEBE",
+  borderRadius: 5,
+  fontSize: 15
+};
+
 const styles = {
-  inputStyle: {
-    borderWidth: 1,
-    padding: 15,
-    borderColor: "#A9AEBE",
-    borderRadius: 5,
-    fontSize: 15
+  invalidStyle: {
+    ...defaultInputStyle,
+    backgroundColor: "#f9e0e0",
+    borderColor: "#f29f9f"
   }
 };
 

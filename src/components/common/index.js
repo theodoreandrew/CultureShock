@@ -4,3 +4,5 @@ export * from "./Button";
 export * from "./CardSection";
 export * from "./Container";
 export * from "./InputField";
+export * from "./Spinner";
+export * from "./TextError";

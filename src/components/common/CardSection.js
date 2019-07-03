@@ -6,14 +6,14 @@ import { View } from "react-native";
  * @param {*} props
  */
 const CardSection = props => {
-  const { containerStyle } = styles;
+  const { cardStyle } = styles;
 
-  return <View style={containerStyle}>{props.children}</View>;
+  return <View style={cardStyle}>{props.children}</View>;
 };
 
 // Styling for card section.
 const styles = {
-  containerStyle: {
+  cardStyle: {
     marginBottom: 20
   }
 };
