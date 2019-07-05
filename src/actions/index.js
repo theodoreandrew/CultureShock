@@ -1,12 +1,32 @@
 import firebase from "firebase";
 
 import {
+  FIRST_NAME_SIGNUP,
+  LAST_NAME_SIGNUP,
   EMAIL_SIGNUP,
   PASSWORD_SIGNUP,
   SIGNUP_USER,
   SIGNUP_SUCCESS,
-  SIGNUP_FAIL
+  SIGNUP_FAIL,
+  FIRST_NAME_INVALID,
+  FIRST_NAME_VALID,
+  LAST_NAME_INVALID,
+  LAST_NAME_VALID
 } from "./Types";
+
+export const firstNameSignup = firstName => {
+  return {
+    type: FIRST_NAME_SIGNUP,
+    payload: firstName
+  };
+};
+
+export const lastNameSignup = lastName => {
+  return {
+    type: LAST_NAME_SIGNUP,
+    payload: lastName
+  };
+};
 
 /**
  * This is action creator when user types email in TextInput.
@@ -27,7 +47,35 @@ export const passwordForSignUp = password => {
   };
 };
 
-export const signUserUp = ({ email, password }) => {
+export const checkFirstName = firstName => {
+  if (firstName === "") {
+    return {
+      type: FIRST_NAME_INVALID,
+      payload: false
+    };
+  }
+
+  return {
+    type: FIRST_NAME_VALID
+  };
+
+  // return dispatch => dispatch(signUserUp(email, password));
+};
+
+export const checkLastName = lastName => {
+  if (lastName === "") {
+    return {
+      type: LAST_NAME_INVALID,
+      payload: false
+    };
+  }
+
+  return {
+    type: LAST_NAME_VALID
+  };
+};
+
+const signUserUp = (email, password) => {
   return dispatch => {
     dispatch({ type: SIGNUP_USER });
 

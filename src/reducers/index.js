@@ -1,10 +1,14 @@
 import { combineReducers } from "redux";
 
 import AuthReducer from "./AuthReducer";
+import FirstNameValidReducer from "./FirstNameValidReducer";
+import LastNameValidReducer from "./LastNameValidReducer";
 
 /**
  * This function combines all reducers in one object that later will be App level state.
  */
 export default combineReducers({
-  auth: AuthReducer
+  auth: AuthReducer,
+  firstNameValidation: FirstNameValidReducer,
+  lastNameValidation: LastNameValidReducer
 });

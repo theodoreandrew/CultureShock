@@ -2,12 +2,35 @@ import React from "react";
 import { connect } from "react-redux";
 import { Text } from "react-native";
 
-import { Container, CardSection, Button, InputField, Spinner } from "./common";
+import {
+  Container,
+  CardSection,
+  Button,
+  InputField,
+  Spinner,
+  TextError
+} from "./common";
 import ProfilePic from "./ProfilePic";
 
-import { emailForSignUp, passwordForSignUp, signUserUp } from "../actions";
+import {
+  firstNameSignup,
+  lastNameSignup,
+  emailForSignUp,
+  passwordForSignUp,
+  signUserUp,
+  checkFirstName,
+  checkLastName
+} from "../actions";
 
 class RegistrationForm extends React.Component {
+  onFirstNameChanged = firstName => {
+    this.props.firstNameSignup(firstName);
+  };
+
+  onLastNameChanged = lastName => {
+    this.props.lastNameSignup(lastName);
+  };
+
   /**
    * Call action creator when user types on InputField.
    */
@@ -20,9 +43,11 @@ class RegistrationForm extends React.Component {
   };
 
   onButtonPress = () => {
-    const { email, password } = this.props;
+    // Include firstName props for validation purposes.
+    const { firstName, lastName, email, password } = this.props;
 
-    this.props.signUserUp({ email, password });
+    this.props.checkFirstName(firstName);
+    this.props.checkLastName(lastName);
   };
 
   renderButton = () => {
@@ -41,6 +66,24 @@ class RegistrationForm extends React.Component {
         </CardSection>
 
         <CardSection>
+          <TextError errorText={this.props.firstNameError} />
+          <InputField
+            placeholder="first name"
+            onChangeText={this.onFirstNameChanged}
+            value={this.props.firstName}
+          />
+        </CardSection>
+
+        <CardSection>
+          <TextError errorText={this.props.lastNameError} />
+          <InputField
+            placeholder="last name"
+            onChangeText={this.onLastNameChanged}
+            value={this.props.lastName}
+          />
+        </CardSection>
+
+        {/* <CardSection>
           <InputField
             autoCapitalize="none"
             placeholder="email"
@@ -59,7 +102,7 @@ class RegistrationForm extends React.Component {
             editable={false}
             selectTextOnFocus={false}
           />
-        </CardSection>
+        </CardSection> */}
 
         <CardSection>
           <Text style={styles.textErrorStyle}>{this.props.error}</Text>
@@ -85,15 +128,37 @@ const styles = {
  * @param {*} state state that is updated by reducer.
  */
 const mapStateToProps = state => {
+  const { firstName, lastName, email, password, error, loading } = state.auth;
+
+  const { isFirstNameValid, firstNameError } = state.firstNameValidation;
+
+  const { isLastNameValid, lastNameError } = state.lastNameValidation;
+
   return {
-    email: state.auth.email,
-    password: state.auth.password,
-    error: state.auth.error,
-    loading: state.auth.loading
+    firstName,
+    lastName,
+    email,
+    password,
+    error,
+    loading,
+    isFirstNameValid,
+    firstNameError,
+    isLastNameValid,
+    lastNameError
   };
+};
+
+const actions = {
+  firstNameSignup,
+  lastNameSignup,
+  emailForSignUp,
+  passwordForSignUp,
+  signUserUp,
+  checkFirstName,
+  checkLastName
 };
 
 export default connect(
   mapStateToProps,
-  { emailForSignUp, passwordForSignUp, signUserUp }
+  actions
 )(RegistrationForm);
