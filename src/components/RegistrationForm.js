@@ -28,6 +28,8 @@ class RegistrationForm extends React.Component {
     isEmailValid: null,
     isPasswordValid: null,
     isRetypePasswordValid: null,
+    firstNameText: "",
+    lastNameText: "",
     errorEmailText: "",
     errorPasswordText: "",
     errorRetypePasswordText: ""
@@ -79,13 +81,13 @@ class RegistrationForm extends React.Component {
    * This is a input validation function.
    */
   validateInput = () => {
-    const { firstName, lastName, password, retypePassword } = this.props;
+    const { firstName, lastName } = this.props;
 
     const isFirstNameValid = firstName !== "";
     const isLastNameValid = lastName !== "";
     const isEmailValid = this.validateEmail();
     const isPasswordValid = this.validatePassword();
-    const isRetypePasswordValid = retypePassword === password;
+    const isRetypePasswordValid = this.validateRetypePassword();
 
     this.setState({
       isFirstNameValid,
@@ -96,7 +98,11 @@ class RegistrationForm extends React.Component {
     });
 
     const isValid =
-      isFirstNameValid && isLastNameValid && isEmailValid && isPasswordValid;
+      isFirstNameValid &&
+      isLastNameValid &&
+      isEmailValid &&
+      isPasswordValid &&
+      isRetypePasswordValid;
 
     return isValid;
   };
@@ -136,6 +142,21 @@ class RegistrationForm extends React.Component {
     });
 
     return passwordIsNotEmpty && passwordFollowsMinCharacter;
+  };
+
+  validateRetypePassword = () => {
+    const { retypePassword, password } = this.props;
+    const retypePasswordIsNotEmpty = retypePassword !== "";
+    const retypeMustMatchWithPassword = retypePassword === password;
+    const errorRetypePasswordText = !retypePasswordIsNotEmpty
+      ? "Re-type password is required"
+      : "Must match with password above";
+
+    this.setState({
+      errorRetypePasswordText
+    });
+
+    return retypePasswordIsNotEmpty && retypeMustMatchWithPassword;
   };
 
   renderButton = () => {
@@ -196,13 +217,11 @@ class RegistrationForm extends React.Component {
     ) {
       return null;
     }
-    return (
-      <TextError errorText="Re-type password has to match with password above" />
-    );
+    return <TextError errorText={this.state.errorRetypePasswordText} />;
   };
 
   render() {
-    console.log(this.state.isEmailValid);
+    console.log(this.state.isFirstNameValid);
     return (
       <Container>
         <CardSection>

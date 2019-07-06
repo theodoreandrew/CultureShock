@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableHighlight, Text } from "react-native";
+import { TouchableOpacity, Text } from "react-native";
 
 /**
  * Reusable component for button that can be used over and over.
@@ -17,7 +17,7 @@ const Button = props => {
    * Render button on the phone screen.
    */
   return (
-    <TouchableHighlight
+    <TouchableOpacity
       style={registrationButtonStyle}
       onPress={props.onPress}
       disabled={props.isDisabled}
@@ -27,7 +27,7 @@ const Button = props => {
       >
         {props.children}
       </Text>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 
