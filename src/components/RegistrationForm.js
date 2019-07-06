@@ -17,22 +17,23 @@ import {
   lastNameSignup,
   emailForSignUp,
   passwordForSignUp,
-  signUserUp,
-  checkFirstName,
-  checkLastName,
-  checkEmail,
-  checkPassword
+  signUserUp
 } from "../actions";
 
 class RegistrationForm extends React.Component {
+  state = {
+    isFirstNameValid: null,
+    isLastNameValid: null,
+    isEmailValid: null,
+    isPasswordValid: null
+  };
+
   onFirstNameChanged = firstName => {
     this.props.firstNameSignup(firstName);
-    this.props.checkFirstName(firstName);
   };
 
   onLastNameChanged = lastName => {
     this.props.lastNameSignup(lastName);
-    this.props.checkLastName(lastName);
   };
 
   /**
@@ -40,40 +41,49 @@ class RegistrationForm extends React.Component {
    */
   onEmailChanged = email => {
     this.props.emailForSignUp(email);
-    this.props.checkEmail(email);
   };
 
   onPasswordChanged = password => {
     this.props.passwordForSignUp(password);
-    this.props.checkPassword(password);
   };
 
   onButtonPress = () => {
     // Include firstName props for validation purposes.
-    const {
+    const { firstName, lastName, email, password } = this.props;
+
+    // const firstNameValid = this.checkFirstName(firstName);
+    // const lastNameValid = this.checkLastName(lastName);
+    // const emailValid = this.checkEmail(email);
+    // const passwordValid = this.checkPassword(password);
+    const inputValid = this.inputValidation(
       firstName,
       lastName,
       email,
-      password,
+      password
+    );
+
+    if (inputValid) {
+      this.props.signUserUp(email, password);
+    }
+  };
+
+  inputValidation = (firstName, lastName, email, password) => {
+    const isFirstNameValid = firstName !== "";
+    const isLastNameValid = lastName !== "";
+    const isEmailValid = email !== "";
+    const isPasswordValid = password !== "";
+
+    this.setState({
       isFirstNameValid,
       isLastNameValid,
       isEmailValid,
       isPasswordValid
-    } = this.props;
+    });
 
-    this.props.checkFirstName(firstName);
-    this.props.checkLastName(lastName);
-    this.props.checkEmail(email);
-    this.props.checkPassword(password);
+    const validity =
+      isFirstNameValid && isLastNameValid && isEmailValid && isPasswordValid;
 
-    if (
-      isFirstNameValid &&
-      isLastNameValid &&
-      isEmailValid &&
-      isPasswordValid
-    ) {
-      this.props.signUserUp(email, password);
-    }
+    return validity;
   };
 
   renderButton = () => {
@@ -85,31 +95,31 @@ class RegistrationForm extends React.Component {
   };
 
   renderErrorFirstName = () => {
-    if (this.props.isFirstNameValid || this.props.isFirstNameValid === null) {
+    if (this.state.isFirstNameValid || this.state.isFirstNameValid === null) {
       return null;
     }
-    return <TextError errorText={this.props.firstNameError} />;
+    return <TextError errorText="First name is required" />;
   };
 
   renderErrorLastName = () => {
-    if (this.props.isLastNameValid || this.props.isLastNameValid === null) {
+    if (this.state.isLastNameValid || this.state.isLastNameValid === null) {
       return null;
     }
-    return <TextError errorText={this.props.lastNameError} />;
+    return <TextError errorText="Last name is required" />;
   };
 
   renderErrorEmail = () => {
-    if (this.props.isEmailValid || this.props.isEmailValid === null) {
+    if (this.state.isEmailValid || this.state.isEmailValid === null) {
       return null;
     }
-    return <TextError errorText={this.props.emailError} />;
+    return <TextError errorText="Email is required" />;
   };
 
   renderErrorPassword = () => {
-    if (this.props.isPasswordValid || this.props.isPasswordValid === null) {
+    if (this.state.isPasswordValid || this.state.isPasswordValid === null) {
       return null;
     }
-    return <TextError errorText={this.props.passwordError} />;
+    return <TextError errorText="Password is required" />;
   };
 
   render() {
@@ -185,10 +195,6 @@ const styles = {
  */
 const mapStateToProps = state => {
   const { firstName, lastName, email, password, error, loading } = state.auth;
-  const { isFirstNameValid, firstNameError } = state.firstNameValidation;
-  const { isLastNameValid, lastNameError } = state.lastNameValidation;
-  const { isEmailValid, emailError } = state.emailValidation;
-  const { isPasswordValid, passwordError } = state.passwordValidation;
 
   return {
     firstName,
@@ -196,15 +202,7 @@ const mapStateToProps = state => {
     email,
     password,
     error,
-    loading,
-    isFirstNameValid,
-    firstNameError,
-    isLastNameValid,
-    lastNameError,
-    isEmailValid,
-    emailError,
-    isPasswordValid,
-    passwordError
+    loading
   };
 };
 
@@ -213,11 +211,7 @@ const actions = {
   lastNameSignup,
   emailForSignUp,
   passwordForSignUp,
-  signUserUp,
-  checkFirstName,
-  checkLastName,
-  checkEmail,
-  checkPassword
+  signUserUp
 };
 
 export default connect(
