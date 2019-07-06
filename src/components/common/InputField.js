@@ -32,6 +32,7 @@ const InputField = ({
         secureTextEntry={secureTextEntry}
         autoCapitalize={autoCapitalize}
         autoCorrect={false}
+        isValid={isValid}
       />
     </View>
   );

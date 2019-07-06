@@ -28,10 +28,16 @@ class RegistrationForm extends React.Component {
     isPasswordValid: null
   };
 
+  /**
+   * Call action creator when user types on InputField.
+   */
   onFirstNameChanged = firstName => {
     this.props.firstNameSignup(firstName);
   };
 
+  /**
+   * Call action creator when user types on InputField.
+   */
   onLastNameChanged = lastName => {
     this.props.lastNameSignup(lastName);
   };
@@ -47,27 +53,25 @@ class RegistrationForm extends React.Component {
     this.props.passwordForSignUp(password);
   };
 
+  /**
+   * This is an event when user clicks on button. The form will sign user up
+   * if all inputs are validated.
+   */
   onButtonPress = () => {
     // Include firstName props for validation purposes.
-    const { firstName, lastName, email, password } = this.props;
+    const { email, password } = this.props;
 
-    // const firstNameValid = this.checkFirstName(firstName);
-    // const lastNameValid = this.checkLastName(lastName);
-    // const emailValid = this.checkEmail(email);
-    // const passwordValid = this.checkPassword(password);
-    const inputValid = this.inputValidation(
-      firstName,
-      lastName,
-      email,
-      password
-    );
-
-    if (inputValid) {
+    if (this.validateInput()) {
       this.props.signUserUp(email, password);
     }
   };
 
-  inputValidation = (firstName, lastName, email, password) => {
+  /**
+   * This is a input validation function.
+   */
+  validateInput = () => {
+    const { firstName, lastName, email, password } = this.props;
+
     const isFirstNameValid = firstName !== "";
     const isLastNameValid = lastName !== "";
     const isEmailValid = email !== "";
@@ -80,10 +84,10 @@ class RegistrationForm extends React.Component {
       isPasswordValid
     });
 
-    const validity =
+    const isValid =
       isFirstNameValid && isLastNameValid && isEmailValid && isPasswordValid;
 
-    return validity;
+    return isValid;
   };
 
   renderButton = () => {
@@ -94,6 +98,9 @@ class RegistrationForm extends React.Component {
     return <Button onPress={this.onButtonPress}>Register</Button>;
   };
 
+  /**
+   * This function renders an error message if first name is not valid.
+   */
   renderErrorFirstName = () => {
     if (this.state.isFirstNameValid || this.state.isFirstNameValid === null) {
       return null;
@@ -101,6 +108,9 @@ class RegistrationForm extends React.Component {
     return <TextError errorText="First name is required" />;
   };
 
+  /**
+   * This function renders an error message if last name is not valid.
+   */
   renderErrorLastName = () => {
     if (this.state.isLastNameValid || this.state.isLastNameValid === null) {
       return null;
@@ -108,6 +118,9 @@ class RegistrationForm extends React.Component {
     return <TextError errorText="Last name is required" />;
   };
 
+  /**
+   * This function renders an error message if email is not valid.
+   */
   renderErrorEmail = () => {
     if (this.state.isEmailValid || this.state.isEmailValid === null) {
       return null;
@@ -115,6 +128,9 @@ class RegistrationForm extends React.Component {
     return <TextError errorText="Email is required" />;
   };
 
+  /**
+   * This function renders an error message if password is not valid.
+   */
   renderErrorPassword = () => {
     if (this.state.isPasswordValid || this.state.isPasswordValid === null) {
       return null;

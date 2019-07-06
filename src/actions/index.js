@@ -10,6 +10,11 @@ import {
   SIGNUP_FAIL
 } from "./Types";
 
+/**
+ * This is action creator when user types his first name in TextInput.
+ *
+ * @param {String} firstName user's first name
+ */
 export const firstNameSignup = firstName => {
   return {
     type: FIRST_NAME_SIGNUP,
@@ -17,6 +22,11 @@ export const firstNameSignup = firstName => {
   };
 };
 
+/**
+ * This is action creator when user types his last name in TextInput.
+ *
+ * @param {String} firstName user's last name
+ */
 export const lastNameSignup = lastName => {
   return {
     type: LAST_NAME_SIGNUP,
@@ -27,7 +37,7 @@ export const lastNameSignup = lastName => {
 /**
  * This is action creator when user types email in TextInput.
  *
- * @param {String} email the email that user types.
+ * @param {String} email user's email
  */
 export const emailForSignUp = email => {
   return {
@@ -36,6 +46,11 @@ export const emailForSignUp = email => {
   };
 };
 
+/**
+ * This is action creator when user types his password in TextInput.
+ *
+ * @param {String} password user's password
+ */
 export const passwordForSignUp = password => {
   return {
     type: PASSWORD_SIGNUP,
@@ -43,8 +58,13 @@ export const passwordForSignUp = password => {
   };
 };
 
-export const signUserUp = (email, password, firstName, lastName) => {
-  // if (firstName !== "" && lastName !== "") {
+/**
+ * This is action creator to sign user up.
+ *
+ * @param {String} email user's email
+ * @param {String} password user's password
+ */
+export const signUserUp = (email, password) => {
   return dispatch => {
     dispatch({ type: SIGNUP_USER });
 
@@ -56,9 +76,14 @@ export const signUserUp = (email, password, firstName, lastName) => {
         signUpFail(dispatch);
       });
   };
-  // }
 };
 
+/**
+ * When user sign up successfully, this private function will be called.
+ *
+ * @param {*} dispatch
+ * @param {*} user
+ */
 const signUpSuccess = (dispatch, user) => {
   return dispatch({
     type: SIGNUP_SUCCESS,
@@ -66,6 +91,11 @@ const signUpSuccess = (dispatch, user) => {
   });
 };
 
+/**
+ * When sign up process fails, this function will be called.
+ *
+ * @param {*} dispatch
+ */
 const signUpFail = dispatch => {
   return dispatch({
     type: SIGNUP_FAIL
