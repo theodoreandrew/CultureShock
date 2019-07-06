@@ -10,22 +10,27 @@ import {
   Spinner,
   TextError
 } from "./common";
-import ProfilePic from "./ProfilePic";
-
 import {
   firstNameSignup,
   lastNameSignup,
   emailForSignUp,
   passwordForSignUp,
+  retypePasswordForSignUp,
   signUserUp
 } from "../actions";
+import ProfilePic from "./ProfilePic";
+import { emailFollowsRegex } from "../util/Validation";
 
 class RegistrationForm extends React.Component {
   state = {
     isFirstNameValid: null,
     isLastNameValid: null,
     isEmailValid: null,
-    isPasswordValid: null
+    isPasswordValid: null,
+    isRetypePasswordValid: null,
+    errorEmailText: "",
+    errorPasswordText: "",
+    errorRetypePasswordText: ""
   };
 
   /**
@@ -53,6 +58,10 @@ class RegistrationForm extends React.Component {
     this.props.passwordForSignUp(password);
   };
 
+  onRetypePasswordChanged = retypePassword => {
+    this.props.retypePasswordForSignUp(retypePassword);
+  };
+
   /**
    * This is an event when user clicks on button. The form will sign user up
    * if all inputs are validated.
@@ -70,24 +79,63 @@ class RegistrationForm extends React.Component {
    * This is a input validation function.
    */
   validateInput = () => {
-    const { firstName, lastName, email, password } = this.props;
+    const { firstName, lastName, password, retypePassword } = this.props;
 
     const isFirstNameValid = firstName !== "";
     const isLastNameValid = lastName !== "";
-    const isEmailValid = email !== "";
-    const isPasswordValid = password !== "";
+    const isEmailValid = this.validateEmail();
+    const isPasswordValid = this.validatePassword();
+    const isRetypePasswordValid = retypePassword === password;
 
     this.setState({
       isFirstNameValid,
       isLastNameValid,
       isEmailValid,
-      isPasswordValid
+      isPasswordValid,
+      isRetypePasswordValid
     });
 
     const isValid =
       isFirstNameValid && isLastNameValid && isEmailValid && isPasswordValid;
 
     return isValid;
+  };
+
+  /**
+   * This function validates email.
+   * 1. If email is empty, set errorEmailText state to follow
+   *    first expression in the ternary operator.
+   * 2. If email does not follow correct format, set errorEmailText state to follow
+   *    second expression in the ternary operator.
+   */
+  validateEmail = () => {
+    const { email } = this.props;
+    const emailFollowsPattern = emailFollowsRegex(email);
+    const emailIsNotEmpty = email !== "";
+    const errorEmailText = !emailIsNotEmpty
+      ? "Email is required"
+      : 'Email must follow format: "john.doe@gmail.com"';
+
+    this.setState({
+      errorEmailText
+    });
+
+    return emailFollowsPattern && emailIsNotEmpty;
+  };
+
+  validatePassword = () => {
+    const { password } = this.props;
+    const passwordIsNotEmpty = password !== "";
+    const passwordFollowsMinCharacter = password.length >= 8;
+    const errorPasswordText = !passwordIsNotEmpty
+      ? "Password is required"
+      : "Password must be at least 8 characters";
+
+    this.setState({
+      errorPasswordText
+    });
+
+    return passwordIsNotEmpty && passwordFollowsMinCharacter;
   };
 
   renderButton = () => {
@@ -125,7 +173,7 @@ class RegistrationForm extends React.Component {
     if (this.state.isEmailValid || this.state.isEmailValid === null) {
       return null;
     }
-    return <TextError errorText="Email is required" />;
+    return <TextError errorText={this.state.errorEmailText} />;
   };
 
   /**
@@ -135,10 +183,26 @@ class RegistrationForm extends React.Component {
     if (this.state.isPasswordValid || this.state.isPasswordValid === null) {
       return null;
     }
-    return <TextError errorText="Password is required" />;
+    return <TextError errorText={this.state.errorPasswordText} />;
+  };
+
+  /**
+   * This function renders an error message if password is not valid.
+   */
+  renderErrorRetypePassword = () => {
+    if (
+      this.state.isRetypePasswordValid ||
+      this.state.isRetypePasswordValid === null
+    ) {
+      return null;
+    }
+    return (
+      <TextError errorText="Re-type password has to match with password above" />
+    );
   };
 
   render() {
+    console.log(this.state.isEmailValid);
     return (
       <Container>
         <CardSection>
@@ -151,6 +215,7 @@ class RegistrationForm extends React.Component {
             placeholder="first name"
             onChangeText={this.onFirstNameChanged}
             value={this.props.firstName}
+            isValid={this.state.isFirstNameValid}
           />
         </CardSection>
 
@@ -160,6 +225,7 @@ class RegistrationForm extends React.Component {
             placeholder="last name"
             onChangeText={this.onLastNameChanged}
             value={this.props.lastName}
+            isValid={this.state.isLastNameValid}
           />
         </CardSection>
 
@@ -170,6 +236,7 @@ class RegistrationForm extends React.Component {
             placeholder="email"
             onChangeText={this.onEmailChanged}
             value={this.props.email}
+            isValid={this.state.isEmailValid}
           />
         </CardSection>
 
@@ -183,6 +250,21 @@ class RegistrationForm extends React.Component {
             autoCapitalize="none"
             editable={false}
             selectTextOnFocus={false}
+            isValid={this.state.isPasswordValid}
+          />
+        </CardSection>
+
+        <CardSection>
+          {this.renderErrorRetypePassword()}
+          <InputField
+            secureTextEntry
+            placeholder="re-type password"
+            onChangeText={this.onRetypePasswordChanged}
+            value={this.props.retypePassword}
+            autoCapitalize="none"
+            editable={false}
+            selectTextOnFocus={false}
+            isValid={this.state.isRetypePasswordValid}
           />
         </CardSection>
 
@@ -210,13 +292,22 @@ const styles = {
  * @param {*} state state that is updated by reducer.
  */
 const mapStateToProps = state => {
-  const { firstName, lastName, email, password, error, loading } = state.auth;
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    retypePassword,
+    error,
+    loading
+  } = state.auth;
 
   return {
     firstName,
     lastName,
     email,
     password,
+    retypePassword,
     error,
     loading
   };
@@ -227,6 +318,7 @@ const actions = {
   lastNameSignup,
   emailForSignUp,
   passwordForSignUp,
+  retypePasswordForSignUp,
   signUserUp
 };
 

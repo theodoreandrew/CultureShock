@@ -5,6 +5,7 @@ import {
   LAST_NAME_SIGNUP,
   EMAIL_SIGNUP,
   PASSWORD_SIGNUP,
+  RETYPE_PASSWORD_SIGNUP,
   SIGNUP_USER,
   SIGNUP_SUCCESS,
   SIGNUP_FAIL
@@ -59,6 +60,18 @@ export const passwordForSignUp = password => {
 };
 
 /**
+ * This is action creator when user types his password in TextInput.
+ *
+ * @param {String} password user's password
+ */
+export const retypePasswordForSignUp = retypePassword => {
+  return {
+    type: RETYPE_PASSWORD_SIGNUP,
+    payload: retypePassword
+  };
+};
+
+/**
  * This is action creator to sign user up.
  *
  * @param {String} email user's email
@@ -82,7 +95,7 @@ export const signUserUp = (email, password) => {
  * When user sign up successfully, this private function will be called.
  *
  * @param {*} dispatch
- * @param {*} user
+ * @param {*} user user status
  */
 const signUpSuccess = (dispatch, user) => {
   return dispatch({

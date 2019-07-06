@@ -18,28 +18,23 @@ const InputField = ({
   autoCapitalize,
   isValid
 }) => {
-  // const { invalidStyle } = styles;
-
-  const curStyle = styleDecision(isValid);
-
   return (
     <View>
       <TextInput
-        style={curStyle}
+        style={styleDecision(isValid)}
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
         autoCapitalize={autoCapitalize}
         autoCorrect={false}
-        isValid={isValid}
       />
     </View>
   );
 };
 
 const styleDecision = flag => {
-  if (flag === null || !flag) {
+  if (flag === null || flag) {
     return defaultInputStyle;
   }
   return styles.invalidStyle;

@@ -3,6 +3,7 @@ import {
   LAST_NAME_SIGNUP,
   EMAIL_SIGNUP,
   PASSWORD_SIGNUP,
+  RETYPE_PASSWORD_SIGNUP,
   SIGNUP_USER,
   SIGNUP_SUCCESS,
   SIGNUP_FAIL
@@ -12,6 +13,7 @@ import {
 const INITIAL_STATE = {
   email: "",
   password: "",
+  retypePassword: "",
   firstName: "",
   lastName: "",
   user: null,
@@ -37,6 +39,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, email: action.payload };
     case PASSWORD_SIGNUP:
       return { ...state, password: action.payload };
+    case RETYPE_PASSWORD_SIGNUP:
+      return { ...state, retypePassword: action.payload };
     case SIGNUP_USER:
       return { ...state, ...INITIAL_STATE, loading: true, error: "" };
     case SIGNUP_SUCCESS:
