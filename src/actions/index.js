@@ -11,7 +11,11 @@ import {
   FIRST_NAME_INVALID,
   FIRST_NAME_VALID,
   LAST_NAME_INVALID,
-  LAST_NAME_VALID
+  LAST_NAME_VALID,
+  EMAIL_VALID,
+  EMAIL_INVALID,
+  PASSWORD_INVALID,
+  PASSWORD_VALID
 } from "./Types";
 
 export const firstNameSignup = firstName => {
@@ -58,8 +62,6 @@ export const checkFirstName = firstName => {
   return {
     type: FIRST_NAME_VALID
   };
-
-  // return dispatch => dispatch(signUserUp(email, password));
 };
 
 export const checkLastName = lastName => {
@@ -75,7 +77,34 @@ export const checkLastName = lastName => {
   };
 };
 
-const signUserUp = (email, password) => {
+export const checkEmail = email => {
+  if (email === "") {
+    return {
+      type: EMAIL_INVALID,
+      payload: false
+    };
+  }
+
+  return {
+    type: EMAIL_VALID
+  };
+};
+
+export const checkPassword = email => {
+  if (email === "") {
+    return {
+      type: PASSWORD_INVALID,
+      payload: false
+    };
+  }
+
+  return {
+    type: PASSWORD_VALID
+  };
+};
+
+export const signUserUp = (email, password, firstName, lastName) => {
+  // if (firstName !== "" && lastName !== "") {
   return dispatch => {
     dispatch({ type: SIGNUP_USER });
 
@@ -87,6 +116,7 @@ const signUserUp = (email, password) => {
         signUpFail(dispatch);
       });
   };
+  // }
 };
 
 const signUpSuccess = (dispatch, user) => {

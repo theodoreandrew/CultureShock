@@ -19,16 +19,20 @@ import {
   passwordForSignUp,
   signUserUp,
   checkFirstName,
-  checkLastName
+  checkLastName,
+  checkEmail,
+  checkPassword
 } from "../actions";
 
 class RegistrationForm extends React.Component {
   onFirstNameChanged = firstName => {
     this.props.firstNameSignup(firstName);
+    this.props.checkFirstName(firstName);
   };
 
   onLastNameChanged = lastName => {
     this.props.lastNameSignup(lastName);
+    this.props.checkLastName(lastName);
   };
 
   /**
@@ -36,18 +40,40 @@ class RegistrationForm extends React.Component {
    */
   onEmailChanged = email => {
     this.props.emailForSignUp(email);
+    this.props.checkEmail(email);
   };
 
   onPasswordChanged = password => {
     this.props.passwordForSignUp(password);
+    this.props.checkPassword(password);
   };
 
   onButtonPress = () => {
     // Include firstName props for validation purposes.
-    const { firstName, lastName, email, password } = this.props;
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      isFirstNameValid,
+      isLastNameValid,
+      isEmailValid,
+      isPasswordValid
+    } = this.props;
 
     this.props.checkFirstName(firstName);
     this.props.checkLastName(lastName);
+    this.props.checkEmail(email);
+    this.props.checkPassword(password);
+
+    if (
+      isFirstNameValid &&
+      isLastNameValid &&
+      isEmailValid &&
+      isPasswordValid
+    ) {
+      this.props.signUserUp(email, password);
+    }
   };
 
   renderButton = () => {
@@ -58,6 +84,34 @@ class RegistrationForm extends React.Component {
     return <Button onPress={this.onButtonPress}>Register</Button>;
   };
 
+  renderErrorFirstName = () => {
+    if (this.props.isFirstNameValid || this.props.isFirstNameValid === null) {
+      return null;
+    }
+    return <TextError errorText={this.props.firstNameError} />;
+  };
+
+  renderErrorLastName = () => {
+    if (this.props.isLastNameValid || this.props.isLastNameValid === null) {
+      return null;
+    }
+    return <TextError errorText={this.props.lastNameError} />;
+  };
+
+  renderErrorEmail = () => {
+    if (this.props.isEmailValid || this.props.isEmailValid === null) {
+      return null;
+    }
+    return <TextError errorText={this.props.emailError} />;
+  };
+
+  renderErrorPassword = () => {
+    if (this.props.isPasswordValid || this.props.isPasswordValid === null) {
+      return null;
+    }
+    return <TextError errorText={this.props.passwordError} />;
+  };
+
   render() {
     return (
       <Container>
@@ -66,7 +120,7 @@ class RegistrationForm extends React.Component {
         </CardSection>
 
         <CardSection>
-          <TextError errorText={this.props.firstNameError} />
+          {this.renderErrorFirstName()}
           <InputField
             placeholder="first name"
             onChangeText={this.onFirstNameChanged}
@@ -75,7 +129,7 @@ class RegistrationForm extends React.Component {
         </CardSection>
 
         <CardSection>
-          <TextError errorText={this.props.lastNameError} />
+          {this.renderErrorLastName()}
           <InputField
             placeholder="last name"
             onChangeText={this.onLastNameChanged}
@@ -83,7 +137,8 @@ class RegistrationForm extends React.Component {
           />
         </CardSection>
 
-        {/* <CardSection>
+        <CardSection>
+          {this.renderErrorEmail()}
           <InputField
             autoCapitalize="none"
             placeholder="email"
@@ -93,6 +148,7 @@ class RegistrationForm extends React.Component {
         </CardSection>
 
         <CardSection>
+          {this.renderErrorPassword()}
           <InputField
             secureTextEntry
             placeholder="password"
@@ -102,7 +158,7 @@ class RegistrationForm extends React.Component {
             editable={false}
             selectTextOnFocus={false}
           />
-        </CardSection> */}
+        </CardSection>
 
         <CardSection>
           <Text style={styles.textErrorStyle}>{this.props.error}</Text>
@@ -129,10 +185,10 @@ const styles = {
  */
 const mapStateToProps = state => {
   const { firstName, lastName, email, password, error, loading } = state.auth;
-
   const { isFirstNameValid, firstNameError } = state.firstNameValidation;
-
   const { isLastNameValid, lastNameError } = state.lastNameValidation;
+  const { isEmailValid, emailError } = state.emailValidation;
+  const { isPasswordValid, passwordError } = state.passwordValidation;
 
   return {
     firstName,
@@ -144,7 +200,11 @@ const mapStateToProps = state => {
     isFirstNameValid,
     firstNameError,
     isLastNameValid,
-    lastNameError
+    lastNameError,
+    isEmailValid,
+    emailError,
+    isPasswordValid,
+    passwordError
   };
 };
 
@@ -155,7 +215,9 @@ const actions = {
   passwordForSignUp,
   signUserUp,
   checkFirstName,
-  checkLastName
+  checkLastName,
+  checkEmail,
+  checkPassword
 };
 
 export default connect(

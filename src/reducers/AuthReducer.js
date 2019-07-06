@@ -5,9 +5,7 @@ import {
   PASSWORD_SIGNUP,
   SIGNUP_USER,
   SIGNUP_SUCCESS,
-  SIGNUP_FAIL,
-  FIRST_NAME_INVALID,
-  LAST_NAME_INVALID
+  SIGNUP_FAIL
 } from "../actions/Types";
 
 // default state
@@ -18,10 +16,7 @@ const INITIAL_STATE = {
   lastName: "",
   user: null,
   error: "",
-  loading: false,
-  isFirstNameValid: true,
-  firstNameError: "",
-  lastNameError: ""
+  loading: false
 };
 
 /**
@@ -56,18 +51,6 @@ export default (state = INITIAL_STATE, action) => {
         ...INITIAL_STATE,
         error: "Account already exists"
       };
-    // case FIRST_NAME_INVALID:
-    //   return {
-    //     ...state,
-    //     ...INITIAL_STATE,
-    //     firstNameError: "First name is required"
-    //   };
-    // case LAST_NAME_INVALID:
-    //   return {
-    //     ...state,
-    //     ...INITIAL_STATE,
-    //     lastNameError: "Last name is required"
-    //   };
     default:
       return state;
   }
