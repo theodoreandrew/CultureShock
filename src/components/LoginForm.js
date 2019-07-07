@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
+import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 
 import { Container, CardSection, InputField, Button, Spinner } from "./common";
@@ -59,7 +60,12 @@ class LoginForm extends React.Component {
         <View>
           <Text style={{ fontSize: 20 }}>
             Don't have account?{" "}
-            <Text style={{ color: "blue", fontSize: 20 }}>Sign up here</Text>
+            <Text
+              style={{ color: "blue", fontSize: 20 }}
+              onPress={() => Actions.signup()}
+            >
+              Sign up here
+            </Text>
           </Text>
         </View>
       </Container>
