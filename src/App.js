@@ -7,8 +7,10 @@ import firebase from "firebase";
 
 import Header from "./components/Header";
 import RegistrationForm from "./components/RegistrationForm";
+import Router from "./Router";
 
 import reducers from "./reducers";
+import LoginForm from "./components/LoginForm";
 
 class App extends React.Component {
   componentDidMount() {
@@ -27,10 +29,10 @@ class App extends React.Component {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     return (
       <Provider store={store}>
-        <View>
-          <Header />
-          <RegistrationForm />
-        </View>
+        {/* <Header /> */}
+        {/* <RegistrationForm /> */}
+        {/* <LoginForm /> */}
+        <Router />
       </Provider>
     );
   }

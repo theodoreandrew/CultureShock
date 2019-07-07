@@ -10,14 +10,7 @@ import {
   Spinner,
   TextError
 } from "./common";
-import {
-  firstNameSignup,
-  lastNameSignup,
-  emailForSignUp,
-  passwordForSignUp,
-  retypePasswordForSignUp,
-  signUserUp
-} from "../actions";
+import { inputSignupUpdate, signUserUp } from "../actions";
 import ProfilePic from "./ProfilePic";
 import { emailFollowsRegex } from "../util/Validation";
 
@@ -38,31 +31,26 @@ class RegistrationForm extends React.Component {
   /**
    * Call action creator when user types on InputField.
    */
-  onFirstNameChanged = firstName => {
-    this.props.firstNameSignup(firstName);
-  };
+  onFirstNameChanged = value =>
+    this.props.inputSignupUpdate({ prop: "firstName", value });
 
   /**
    * Call action creator when user types on InputField.
    */
-  onLastNameChanged = lastName => {
-    this.props.lastNameSignup(lastName);
-  };
+  onLastNameChanged = value =>
+    this.props.inputSignupUpdate({ prop: "lastName", value });
 
   /**
    * Call action creator when user types on InputField.
    */
-  onEmailChanged = email => {
-    this.props.emailForSignUp(email);
-  };
+  onEmailChanged = value =>
+    this.props.inputSignupUpdate({ prop: "email", value });
 
-  onPasswordChanged = password => {
-    this.props.passwordForSignUp(password);
-  };
+  onPasswordChanged = value =>
+    this.props.inputSignupUpdate({ prop: "password", value });
 
-  onRetypePasswordChanged = retypePassword => {
-    this.props.retypePasswordForSignUp(retypePassword);
-  };
+  onRetypePasswordChanged = value =>
+    this.props.inputSignupUpdate({ prop: "retypePassword", value });
 
   /**
    * This is an event when user clicks on button. The form will sign user up
@@ -288,7 +276,7 @@ class RegistrationForm extends React.Component {
         </CardSection>
 
         <CardSection>
-          <Text style={styles.textErrorStyle}>{this.props.error}</Text>
+          <Text style={styles.textErrorStyle}>{this.props.errorSignUp}</Text>
           {this.renderButton()}
         </CardSection>
       </Container>
@@ -300,7 +288,8 @@ const styles = {
   textErrorStyle: {
     color: "red",
     fontSize: 20,
-    alignSelf: "center"
+    alignSelf: "center",
+    marginBottom: 10
   }
 };
 
@@ -317,7 +306,7 @@ const mapStateToProps = state => {
     email,
     password,
     retypePassword,
-    error,
+    errorSignUp,
     loading
   } = state.auth;
 
@@ -327,17 +316,13 @@ const mapStateToProps = state => {
     email,
     password,
     retypePassword,
-    error,
+    errorSignUp,
     loading
   };
 };
 
 const actions = {
-  firstNameSignup,
-  lastNameSignup,
-  emailForSignUp,
-  passwordForSignUp,
-  retypePasswordForSignUp,
+  inputSignupUpdate,
   signUserUp
 };
 

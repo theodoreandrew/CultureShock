@@ -1,12 +1,8 @@
 import {
-  FIRST_NAME_SIGNUP,
-  LAST_NAME_SIGNUP,
-  EMAIL_SIGNUP,
-  PASSWORD_SIGNUP,
-  RETYPE_PASSWORD_SIGNUP,
-  SIGNUP_USER,
-  SIGNUP_SUCCESS,
-  SIGNUP_FAIL
+  INPUT_SIGNUP_UPDATE,
+  START_AUTHENTICATE,
+  AUTH_SUCCESS,
+  AUTH_FAIL
 } from "../actions/Types";
 
 // default state
@@ -17,7 +13,8 @@ const INITIAL_STATE = {
   firstName: "",
   lastName: "",
   user: null,
-  error: "",
+  errorSignIn: "",
+  errorSignUp: "",
   loading: false
 };
 
@@ -31,29 +28,28 @@ const INITIAL_STATE = {
  */
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case FIRST_NAME_SIGNUP:
-      return { ...state, firstName: action.payload };
-    case LAST_NAME_SIGNUP:
-      return { ...state, lastName: action.payload };
-    case EMAIL_SIGNUP:
-      return { ...state, email: action.payload };
-    case PASSWORD_SIGNUP:
-      return { ...state, password: action.payload };
-    case RETYPE_PASSWORD_SIGNUP:
-      return { ...state, retypePassword: action.payload };
-    case SIGNUP_USER:
-      return { ...state, ...INITIAL_STATE, loading: true, error: "" };
-    case SIGNUP_SUCCESS:
+    case INPUT_SIGNUP_UPDATE:
+      return { ...state, [action.payload.prop]: action.payload.value };
+    case START_AUTHENTICATE:
+      return {
+        ...state,
+        ...INITIAL_STATE,
+        loading: true,
+        errorSignIn: "",
+        errorSignUp: ""
+      };
+    case AUTH_SUCCESS:
       return {
         ...state,
         ...INITIAL_STATE,
         user: action.payload
       };
-    case SIGNUP_FAIL:
+    case AUTH_FAIL:
       return {
         ...state,
-        ...INITIAL_STATE,
-        error: "Account already exists"
+        email: "",
+        loading: false,
+        [action.payload.prop]: [action.payload.value]
       };
     default:
       return state;

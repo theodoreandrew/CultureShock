@@ -9,7 +9,7 @@ const Header = () => {
 
   return (
     <View style={containerStyle}>
-      <Text style={textStyle}>Make Your Profile</Text>
+      <Text style={textStyle}>Welcome To Culture Shock</Text>
     </View>
   );
 };
@@ -17,11 +17,14 @@ const Header = () => {
 const styles = {
   containerStyle: {
     marginTop: 49.05,
-    marginLeft: 40
+    marginLeft: 1,
+    marginBottom: 10,
+    // margin: "0 auto",
+    alignSelf: "center"
   },
   textStyle: {
     color: "#535D7E",
-    fontSize: 26,
+    fontSize: 20,
     fontWeight: "700",
     textShadowColor: "rgba(0, 0, 0, 0.75)"
   }
