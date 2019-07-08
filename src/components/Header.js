@@ -9,22 +9,22 @@ const Header = () => {
 
   return (
     <View style={containerStyle}>
-      <Text style={textStyle}>Welcome To Culture Shock</Text>
+      <Text style={textStyle}>CultureShock</Text>
     </View>
   );
 };
 
 const styles = {
   containerStyle: {
-    marginTop: 49.05,
+    marginTop: 20,
     marginLeft: 1,
-    marginBottom: 10,
+    marginBottom: 20,
     // margin: "0 auto",
     alignSelf: "center"
   },
   textStyle: {
     color: "#535D7E",
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: "700",
     textShadowColor: "rgba(0, 0, 0, 0.75)"
   }

@@ -8,11 +8,25 @@ import Header from "./Header";
 import { inputSignupUpdate, signUserIn } from "../actions";
 
 class LoginForm extends React.Component {
-  // state = { isValid: true };
+  state = { isEmailValid: null, isPasswordValid: null };
 
   onButtonPress = () => {
     const { email, password, signUserIn } = this.props;
-    signUserIn(email, password);
+
+    if (this.validateInput()) {
+      signUserIn(email, password);
+    }
+  };
+
+  validateInput = () => {
+    const { email, password } = this.props;
+
+    const isEmailValid = email !== "" ? true : false;
+    const isPasswordValid = password !== "" ? true : false;
+
+    this.setState({ isEmailValid, isPasswordValid });
+
+    return isEmailValid && isPasswordValid;
   };
 
   renderButton = () => {
@@ -25,6 +39,7 @@ class LoginForm extends React.Component {
 
   render() {
     const { email, password, inputSignupUpdate } = this.props;
+    const { isEmailValid, isPasswordValid } = this.state;
 
     return (
       <Container>
@@ -35,7 +50,7 @@ class LoginForm extends React.Component {
             placeholder="email"
             onChangeText={value => inputSignupUpdate({ prop: "email", value })}
             value={email}
-            isValid
+            isValid={isEmailValid}
           />
         </CardSection>
 
@@ -48,7 +63,7 @@ class LoginForm extends React.Component {
             }
             value={password}
             secureTextEntry
-            isValid
+            isValid={isPasswordValid}
           />
         </CardSection>
 
@@ -57,11 +72,11 @@ class LoginForm extends React.Component {
           {this.renderButton()}
         </CardSection>
 
-        <View>
-          <Text style={{ fontSize: 20 }}>
+        <View style={{ alignSelf: "center" }}>
+          <Text style={{ fontSize: 15 }}>
             Don't have account?{" "}
             <Text
-              style={{ color: "blue", fontSize: 20 }}
+              style={{ color: "blue", fontSize: 15 }}
               onPress={() => Actions.signup()}
             >
               Sign up here

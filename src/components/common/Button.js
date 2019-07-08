@@ -1,58 +1,53 @@
 import React from "react";
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableHighlight, Text } from "react-native";
 
 /**
  * Reusable component for button that can be used over and over.
  * @param {*} props
  */
-const Button = props => {
-  const {
-    registrationButtonStyle,
-    disabledButtonStyle,
-    disabledTextStyle,
-    registrationTextStyle
-  } = styles;
+// const Button = props => {
+//   const { registrationButtonStyle, registrationTextStyle } = styles;
 
-  /**
-   * Render button on the phone screen.
-   */
-  return (
-    <TouchableOpacity
-      style={registrationButtonStyle}
-      onPress={props.onPress}
-      disabled={props.isDisabled}
-    >
-      <Text
-        style={props.isDisabled ? disabledTextStyle : registrationTextStyle}
+//   /**
+//    * Render button on the phone screen.
+//    */
+//   return (
+//     <TouchableHighlight style={registrationButtonStyle} onPress={props.onPress}>
+//       <Text style={registrationTextStyle}>{props.children}</Text>
+//     </TouchableHighlight>
+//   );
+// };
+
+class Button extends React.Component {
+  state = { isButtonPressed: false };
+
+  render() {
+    const {
+      buttonPressed,
+      buttonNotPressed,
+      textNotPressed,
+      textPressed
+    } = styles;
+    const { isButtonPressed } = this.state;
+
+    return (
+      <TouchableHighlight
+        style={isButtonPressed ? buttonPressed : buttonNotPressed}
+        activeOpacity={1}
+        underlayColor={"#ededed"}
+        onPress={this.props.onPress}
+        onHideUnderlay={() => this.setState({ isButtonPressed: false })}
+        onShowUnderlay={() => this.setState({ isButtonPressed: true })}
       >
-        {props.children}
-      </Text>
-    </TouchableOpacity>
-  );
-};
+        <Text style={isButtonPressed ? textPressed : textNotPressed}>
+          {this.props.children}
+        </Text>
+      </TouchableHighlight>
+    );
+  }
+}
 
 // Styling for the button and the text inside the button.
-
-/**
- * This is basic button style.
- */
-const defaultButtonStyle = {
-  borderWidth: 0,
-  padding: 15,
-  borderRadius: 5,
-  alignSelf: "stretch",
-  shadowColor: "#b2b2b2",
-  shadowOffset: { width: 0, height: 1 },
-  shadowOpacity: 0.2
-};
-
-/**
- * This is basic text style inside the button.
- */
-const defaultTextStyle = {
-  textAlign: "center",
-  fontSize: 18
-};
 
 /**
  * This object contains styling for 2 cases:
@@ -62,16 +57,28 @@ const defaultTextStyle = {
  *         registrationButtonStyle
  */
 const styles = {
-  registrationButtonStyle: {
-    ...defaultButtonStyle,
+  buttonNotPressed: {
+    borderWidth: 0,
+    padding: 15,
+    borderRadius: 5,
+    alignSelf: "stretch",
+    shadowColor: "#b2b2b2",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
     backgroundColor: "#67BBE1"
   },
-  registrationTextStyle: { ...defaultTextStyle, color: "#ffffff" },
-  disabledButtonStyle: {
-    ...defaultButtonStyle,
-    backgroundColor: "#dee0e2"
+  buttonPressed: {
+    borderWidth: 1,
+    borderColor: "#c7c7c7",
+    padding: 15,
+    borderRadius: 5,
+    alignSelf: "stretch",
+    shadowColor: "#b2b2b2",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2
   },
-  disabledTextStyle: { ...defaultTextStyle, color: "#7c7c7c" }
+  textNotPressed: { textAlign: "center", fontSize: 18, color: "#ffffff" },
+  textPressed: { textAlign: "center", fontSize: 18, color: "#999999" }
 };
 
 export { Button };

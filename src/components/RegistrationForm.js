@@ -211,7 +211,7 @@ class RegistrationForm extends React.Component {
   render() {
     console.log(this.state.isFirstNameValid);
     return (
-      <Container>
+      <Container style={{ marginTop: 10 }}>
         <CardSection>
           <ProfilePic />
         </CardSection>

@@ -8,8 +8,14 @@ const RouterComponent = () => {
   return (
     <Router>
       <Scene key="root" hideNavBar>
-        <Scene key="auth">
-          <Scene initial key="login" component={LoginForm} title="Log In" />
+        <Scene key="auth" indicatorStyle={{ backgroundColor: "#fff" }}>
+          <Scene
+            initial
+            key="login"
+            component={LoginForm}
+            title="Log In"
+            hideNavBar
+          />
           <Scene
             key="signup"
             component={RegistrationForm}

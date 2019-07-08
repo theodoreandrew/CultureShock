@@ -45,9 +45,10 @@ const styleDecision = flag => {
 const defaultInputStyle = {
   borderWidth: 1,
   padding: 15,
-  borderColor: "#A9AEBE",
+  borderColor: "#e3e3e3",
   borderRadius: 5,
-  fontSize: 15
+  fontSize: 15,
+  backgroundColor: "#f2f2f2"
 };
 
 const styles = {
