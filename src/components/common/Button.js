@@ -1,23 +1,6 @@
 import React from "react";
 import { TouchableHighlight, Text } from "react-native";
 
-/**
- * Reusable component for button that can be used over and over.
- * @param {*} props
- */
-// const Button = props => {
-//   const { registrationButtonStyle, registrationTextStyle } = styles;
-
-//   /**
-//    * Render button on the phone screen.
-//    */
-//   return (
-//     <TouchableHighlight style={registrationButtonStyle} onPress={props.onPress}>
-//       <Text style={registrationTextStyle}>{props.children}</Text>
-//     </TouchableHighlight>
-//   );
-// };
-
 class Button extends React.Component {
   state = { isButtonPressed: false };
 
@@ -34,7 +17,7 @@ class Button extends React.Component {
       <TouchableHighlight
         style={isButtonPressed ? buttonPressed : buttonNotPressed}
         activeOpacity={1}
-        underlayColor={"#ededed"}
+        underlayColor={"#528ea8"}
         onPress={this.props.onPress}
         onHideUnderlay={() => this.setState({ isButtonPressed: false })}
         onShowUnderlay={() => this.setState({ isButtonPressed: true })}
@@ -49,6 +32,17 @@ class Button extends React.Component {
 
 // Styling for the button and the text inside the button.
 
+const defaultButton = {
+  padding: 15,
+  borderRadius: 5,
+  alignSelf: "stretch",
+  shadowColor: "#b2b2b2",
+  shadowOffset: { width: 0, height: 1 },
+  shadowOpacity: 0.2
+};
+
+const defaultText = { textAlign: "center", fontSize: 18 };
+
 /**
  * This object contains styling for 2 cases:
  *
@@ -58,27 +52,15 @@ class Button extends React.Component {
  */
 const styles = {
   buttonNotPressed: {
+    ...defaultButton,
     borderWidth: 0,
-    padding: 15,
-    borderRadius: 5,
-    alignSelf: "stretch",
-    shadowColor: "#b2b2b2",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
     backgroundColor: "#67BBE1"
   },
   buttonPressed: {
-    borderWidth: 1,
-    borderColor: "#c7c7c7",
-    padding: 15,
-    borderRadius: 5,
-    alignSelf: "stretch",
-    shadowColor: "#b2b2b2",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2
+    ...defaultButton
   },
-  textNotPressed: { textAlign: "center", fontSize: 18, color: "#ffffff" },
-  textPressed: { textAlign: "center", fontSize: 18, color: "#999999" }
+  textNotPressed: { ...defaultText, color: "#ffffff" },
+  textPressed: { ...defaultText, color: "#dbdbdb" }
 };
 
 export { Button };

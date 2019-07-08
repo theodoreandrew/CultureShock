@@ -1,15 +1,15 @@
 import firebase from "firebase";
 
 import {
-  INPUT_SIGNUP_UPDATE,
+  INPUT_UPDATE,
   START_AUTHENTICATE,
   AUTH_SUCCESS,
   AUTH_FAIL
 } from "./Types";
 
-export const inputSignupUpdate = ({ prop, value }) => {
+export const inputUpdate = ({ prop, value }) => {
   return {
-    type: INPUT_SIGNUP_UPDATE,
+    type: INPUT_UPDATE,
     payload: { prop, value }
   };
 };

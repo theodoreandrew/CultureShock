@@ -1,5 +1,5 @@
 import {
-  INPUT_SIGNUP_UPDATE,
+  INPUT_UPDATE,
   START_AUTHENTICATE,
   AUTH_SUCCESS,
   AUTH_FAIL
@@ -28,7 +28,7 @@ const INITIAL_STATE = {
  */
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case INPUT_SIGNUP_UPDATE:
+    case INPUT_UPDATE:
       return { ...state, [action.payload.prop]: action.payload.value };
     case START_AUTHENTICATE:
       return {

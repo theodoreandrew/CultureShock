@@ -1,1 +1,1 @@
-export * from "./SignupActions";
+export * from "./AuthActions";

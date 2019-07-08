@@ -10,7 +10,7 @@ import {
   Spinner,
   TextError
 } from "./common";
-import { inputSignupUpdate, signUserUp } from "../actions";
+import { inputUpdate, signUserUp } from "../actions";
 import ProfilePic from "./ProfilePic";
 import { emailFollowsRegex } from "../util/Validation";
 
@@ -32,25 +32,24 @@ class RegistrationForm extends React.Component {
    * Call action creator when user types on InputField.
    */
   onFirstNameChanged = value =>
-    this.props.inputSignupUpdate({ prop: "firstName", value });
+    this.props.inputUpdate({ prop: "firstName", value });
 
   /**
    * Call action creator when user types on InputField.
    */
   onLastNameChanged = value =>
-    this.props.inputSignupUpdate({ prop: "lastName", value });
+    this.props.inputUpdate({ prop: "lastName", value });
 
   /**
    * Call action creator when user types on InputField.
    */
-  onEmailChanged = value =>
-    this.props.inputSignupUpdate({ prop: "email", value });
+  onEmailChanged = value => this.props.inputUpdate({ prop: "email", value });
 
   onPasswordChanged = value =>
-    this.props.inputSignupUpdate({ prop: "password", value });
+    this.props.inputUpdate({ prop: "password", value });
 
   onRetypePasswordChanged = value =>
-    this.props.inputSignupUpdate({ prop: "retypePassword", value });
+    this.props.inputUpdate({ prop: "retypePassword", value });
 
   /**
    * This is an event when user clicks on button. The form will sign user up
@@ -322,7 +321,7 @@ const mapStateToProps = state => {
 };
 
 const actions = {
-  inputSignupUpdate,
+  inputUpdate,
   signUserUp
 };
 

@@ -9,7 +9,8 @@ const Header = () => {
 
   return (
     <View style={containerStyle}>
-      <Text style={textStyle}>CultureShock</Text>
+      <Text style={textStyle}>Culture</Text>
+      <Text style={textStyle}>Shock</Text>
     </View>
   );
 };
@@ -19,13 +20,13 @@ const styles = {
     marginTop: 20,
     marginLeft: 1,
     marginBottom: 20,
-    // margin: "0 auto",
     alignSelf: "center"
   },
   textStyle: {
     color: "#535D7E",
     fontSize: 30,
     fontWeight: "700",
+    fontStyle: "italic",
     textShadowColor: "rgba(0, 0, 0, 0.75)"
   }
 };

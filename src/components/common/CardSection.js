@@ -8,7 +8,7 @@ import { View } from "react-native";
 const CardSection = props => {
   const { cardStyle } = styles;
 
-  return <View style={cardStyle}>{props.children}</View>;
+  return <View style={[cardStyle, props.style]}>{props.children}</View>;
 };
 
 // Styling for card section.

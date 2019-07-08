@@ -3,9 +3,16 @@ import { View, Text } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 
-import { Container, CardSection, InputField, Button, Spinner } from "./common";
+import {
+  Container,
+  CardSection,
+  InputField,
+  Button,
+  Spinner,
+  TextError
+} from "./common";
 import Header from "./Header";
-import { inputSignupUpdate, signUserIn } from "../actions";
+import { inputUpdate, signUserIn } from "../actions";
 
 class LoginForm extends React.Component {
   state = { isEmailValid: null, isPasswordValid: null };
@@ -16,6 +23,15 @@ class LoginForm extends React.Component {
     if (this.validateInput()) {
       signUserIn(email, password);
     }
+  };
+
+  onSignupNavigationPress = () => {
+    this.setState({
+      isEmailValid: null,
+      isPasswordValid: null
+    });
+
+    Actions.signup();
   };
 
   validateInput = () => {
@@ -29,6 +45,26 @@ class LoginForm extends React.Component {
     return isEmailValid && isPasswordValid;
   };
 
+  /**
+   * This function renders an error message if email is not valid.
+   */
+  renderErrorEmail = () => {
+    if (this.state.isEmailValid || this.state.isEmailValid === null) {
+      return null;
+    }
+    return <TextError errorText="Please enter your email" />;
+  };
+
+  /**
+   * This function renders an error message if password is not valid.
+   */
+  renderErrorPassword = () => {
+    if (this.state.isPasswordValid || this.state.isPasswordValid === null) {
+      return null;
+    }
+    return <TextError errorText="Please enter your password" />;
+  };
+
   renderButton = () => {
     if (this.props.loading) {
       return <Spinner size="large" />;
@@ -38,29 +74,29 @@ class LoginForm extends React.Component {
   };
 
   render() {
-    const { email, password, inputSignupUpdate } = this.props;
+    const { email, password, inputUpdate } = this.props;
     const { isEmailValid, isPasswordValid } = this.state;
 
     return (
       <Container>
         <Header />
-        <CardSection>
+        <CardSection style={{ marginBottom: 5 }}>
+          {this.renderErrorEmail()}
           <InputField
             autoCapitalize="none"
             placeholder="email"
-            onChangeText={value => inputSignupUpdate({ prop: "email", value })}
+            onChangeText={value => inputUpdate({ prop: "email", value })}
             value={email}
             isValid={isEmailValid}
           />
         </CardSection>
 
-        <CardSection>
+        <CardSection style={{ marginBottom: 10 }}>
+          {this.renderErrorPassword()}
           <InputField
             autoCapitalize="none"
             placeholder="password"
-            onChangeText={value =>
-              inputSignupUpdate({ prop: "password", value })
-            }
+            onChangeText={value => inputUpdate({ prop: "password", value })}
             value={password}
             secureTextEntry
             isValid={isPasswordValid}
@@ -77,7 +113,7 @@ class LoginForm extends React.Component {
             Don't have account?{" "}
             <Text
               style={{ color: "blue", fontSize: 15 }}
-              onPress={() => Actions.signup()}
+              onPress={this.onSignupNavigationPress}
             >
               Sign up here
             </Text>
@@ -108,7 +144,7 @@ const mapStateToProps = state => {
   };
 };
 
-const actions = { inputSignupUpdate, signUserIn };
+const actions = { inputUpdate, signUserIn };
 
 export default connect(
   mapStateToProps,
