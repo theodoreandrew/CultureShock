@@ -6,6 +6,7 @@ import {
   AUTH_SUCCESS,
   AUTH_FAIL
 } from "./Types";
+import { Actions } from "react-native-router-flux";
 
 export const inputUpdate = ({ prop, value }) => {
   return {
@@ -61,10 +62,12 @@ export const signUserIn = (email, password) => {
  * @param {*} user user status
  */
 const authSuccess = (dispatch, user) => {
-  return dispatch({
+  dispatch({
     type: AUTH_SUCCESS,
     payload: user
   });
+
+  Actions.main();
 };
 
 /**
@@ -73,7 +76,7 @@ const authSuccess = (dispatch, user) => {
  * @param {*} dispatch
  */
 const authFail = (dispatch, { prop, value }) => {
-  return dispatch({
+  dispatch({
     type: AUTH_FAIL,
     payload: { prop, value }
   });
