@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
+import { connect } from "react-redux";
 
 class PostList extends React.Component {
   render() {
@@ -19,4 +20,10 @@ class PostList extends React.Component {
   }
 }
 
-export default PostList;
+const mapStateToProps = state => {
+  const { user } = state.auth;
+
+  return { user };
+};
+
+export default connect(mapStateToProps)(PostList);

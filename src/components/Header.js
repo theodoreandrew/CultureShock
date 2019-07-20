@@ -10,7 +10,7 @@ const Header = () => {
   return (
     <View style={containerStyle}>
       <Text style={textStyle}>Culture</Text>
-      <Text style={textStyle}>Shock</Text>
+      <Text style={textStyle}>Shocks</Text>
     </View>
   );
 };

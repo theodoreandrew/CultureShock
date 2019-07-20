@@ -11,7 +11,6 @@ import {
   TextError
 } from "./common";
 import { inputUpdate, signUserUp } from "../actions";
-import ProfilePic from "./ProfilePic";
 import { emailFollowsRegex } from "../util/Validation";
 
 class RegistrationForm extends React.Component {
@@ -57,10 +56,10 @@ class RegistrationForm extends React.Component {
    */
   onButtonPress = () => {
     // Include firstName props for validation purposes.
-    const { email, password } = this.props;
+    const { firstName, lastName, email, password } = this.props;
 
     if (this.validateInput()) {
-      this.props.signUserUp(email, password);
+      this.props.signUserUp(firstName, lastName, email, password);
     }
   };
 
@@ -208,17 +207,16 @@ class RegistrationForm extends React.Component {
   };
 
   render() {
-    console.log(this.state.isFirstNameValid);
     return (
       <Container style={{ marginTop: 10 }}>
-        <CardSection>
+        {/* <CardSection>
           <ProfilePic />
-        </CardSection>
+        </CardSection> */}
 
         <CardSection>
           {this.renderErrorFirstName()}
           <InputField
-            placeholder="first name"
+            placeholder="first name *"
             onChangeText={this.onFirstNameChanged}
             value={this.props.firstName}
             isValid={this.state.isFirstNameValid}
@@ -228,7 +226,7 @@ class RegistrationForm extends React.Component {
         <CardSection>
           {this.renderErrorLastName()}
           <InputField
-            placeholder="last name"
+            placeholder="last name *"
             onChangeText={this.onLastNameChanged}
             value={this.props.lastName}
             isValid={this.state.isLastNameValid}
@@ -239,7 +237,7 @@ class RegistrationForm extends React.Component {
           {this.renderErrorEmail()}
           <InputField
             autoCapitalize="none"
-            placeholder="email"
+            placeholder="email *"
             onChangeText={this.onEmailChanged}
             value={this.props.email}
             isValid={this.state.isEmailValid}
@@ -250,7 +248,7 @@ class RegistrationForm extends React.Component {
           {this.renderErrorPassword()}
           <InputField
             secureTextEntry
-            placeholder="password"
+            placeholder="password *"
             onChangeText={this.onPasswordChanged}
             value={this.props.password}
             autoCapitalize="none"
@@ -264,7 +262,7 @@ class RegistrationForm extends React.Component {
           {this.renderErrorRetypePassword()}
           <InputField
             secureTextEntry
-            placeholder="re-type password"
+            placeholder="re-type password *"
             onChangeText={this.onRetypePasswordChanged}
             value={this.props.retypePassword}
             autoCapitalize="none"

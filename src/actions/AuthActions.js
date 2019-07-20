@@ -4,7 +4,8 @@ import {
   INPUT_UPDATE,
   START_AUTHENTICATE,
   AUTH_SUCCESS,
-  AUTH_FAIL
+  AUTH_FAIL,
+  AUTH_NAV
 } from "./Types";
 import { Actions } from "react-native-router-flux";
 
@@ -15,26 +16,38 @@ export const inputUpdate = ({ prop, value }) => {
   };
 };
 
+export const inputWhenNavigate = () => {
+  return {
+    type: AUTH_NAV
+  };
+};
+
 /**
  * This is action creator to sign user up.
  *
  * @param {String} email user's email
  * @param {String} password user's password
  */
-export const signUserUp = (email, password) => {
+export const signUserUp = (firstName, lastName, email, password) => {
   return dispatch => {
     dispatch({ type: START_AUTHENTICATE });
 
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(user => authSuccess(dispatch, user))
-      .catch(() =>
-        authFail(dispatch, {
-          prop: "errorSignUp",
-          value: "Email already exists"
-        })
-      );
+      .then(user => {
+        registerName(firstName, lastName); // Change name according to user input
+        dispatch(handleAuthSuccess(user));
+        Actions.main(); // Navigate to home feed page if sign up is successful
+      })
+      .catch(() => {
+        dispatch(
+          handleAuthFail({
+            prop: "errorSignUp",
+            value: "Email already exists"
+          })
+        );
+      });
   };
 };
 
@@ -45,22 +58,43 @@ export const signUserIn = (email, password) => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(user => authSuccess(dispatch, user))
+      .then(user => {
+        dispatch(handleAuthSuccess(user));
+        Actions.main(); // Navigate to home feed page if sign up is successful
+        // authSuccess(dispatch, user);
+      })
       .catch(() =>
-        authFail(dispatch, {
-          prop: "errorSignIn",
-          value: "Wrong email or password. Try again"
-        })
+        dispatch(
+          handleAuthFail({
+            prop: "errorSignIn",
+            value: "Wrong email or password. Try again"
+          })
+        )
       );
   };
+};
+
+const registerName = (firstName, lastName) => {
+  const currentUser = firebase.auth().currentUser;
+
+  return currentUser.updateProfile({
+    displayName: firstName + " " + lastName
+  });
 };
 
 /**
  * When user sign up successfully, this private function will be called.
  *
- * @param {*} dispatch
  * @param {*} user user status
  */
+const handleAuthSuccess = user => {
+  // console.log(user);
+  return {
+    type: AUTH_SUCCESS,
+    payload: user
+  };
+};
+
 const authSuccess = (dispatch, user) => {
   dispatch({
     type: AUTH_SUCCESS,
@@ -73,11 +107,13 @@ const authSuccess = (dispatch, user) => {
 /**
  * When sign up process fails, this function will be called.
  *
- * @param {*} dispatch
+ * @param {*} prop is the prop that we want to update
+ * @param {*} value is the value that we want to update to prop
+ *
  */
-const authFail = (dispatch, { prop, value }) => {
-  dispatch({
+const handleAuthFail = ({ prop, value }) => {
+  return {
     type: AUTH_FAIL,
     payload: { prop, value }
-  });
+  };
 };

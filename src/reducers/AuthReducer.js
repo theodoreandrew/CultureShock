@@ -2,7 +2,8 @@ import {
   INPUT_UPDATE,
   START_AUTHENTICATE,
   AUTH_SUCCESS,
-  AUTH_FAIL
+  AUTH_FAIL,
+  AUTH_NAV
 } from "../actions/Types";
 
 // default state
@@ -51,6 +52,8 @@ export default (state = INITIAL_STATE, action) => {
         loading: false,
         [action.payload.prop]: [action.payload.value]
       };
+    case AUTH_NAV:
+      return { ...state, ...INITIAL_STATE };
     default:
       return state;
   }

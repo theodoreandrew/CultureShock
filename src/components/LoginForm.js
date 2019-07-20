@@ -12,7 +12,7 @@ import {
   TextError
 } from "./common";
 import Header from "./Header";
-import { inputUpdate, signUserIn } from "../actions";
+import { inputUpdate, inputWhenNavigate, signUserIn } from "../actions";
 
 class LoginForm extends React.Component {
   state = { isEmailValid: null, isPasswordValid: null };
@@ -30,6 +30,8 @@ class LoginForm extends React.Component {
       isEmailValid: null,
       isPasswordValid: null
     });
+
+    this.props.inputWhenNavigate();
 
     Actions.signup();
   };
@@ -110,9 +112,9 @@ class LoginForm extends React.Component {
 
         <View style={{ alignSelf: "center" }}>
           <Text style={{ fontSize: 15 }}>
-            Don't have account?{" "}
+            Don't have account?{"\n"}
             <Text
-              style={{ color: "blue", fontSize: 15 }}
+              style={{ color: "blue", fontSize: 15, alignContent: "center" }}
               onPress={this.onSignupNavigationPress}
             >
               Sign up here
@@ -144,7 +146,7 @@ const mapStateToProps = state => {
   };
 };
 
-const actions = { inputUpdate, signUserIn };
+const actions = { inputUpdate, inputWhenNavigate, signUserIn };
 
 export default connect(
   mapStateToProps,
