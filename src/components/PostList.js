@@ -1,11 +1,14 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { connect } from "react-redux";
+import firebase from "firebase";
 
 class PostList extends React.Component {
   render() {
+    const { currentUser } = firebase.auth();
     return (
       <View>
+        <Text>{currentUser.displayName}</Text>
         <Text>Post 1</Text>
         <Text>Post 2</Text>
         <Text>Post 3</Text>
