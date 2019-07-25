@@ -1,30 +1,27 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  TouchableHighlight
-} from "react-native";
+import { View, Text, TextInput, TouchableHighlight } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 
 import { addDescription } from "../../actions/UserActions";
+import { Button } from "../common";
 
 class UserDescription extends React.Component {
   state = { description: "" };
 
   static navigationOptions = ({ navigation }) => {
+    const { buttonStyle, textButtonStyle } = styles;
     const { params = {} } = navigation.state;
     return {
       headerRight: (
         <TouchableHighlight
           title="Save"
-          style={{ paddingRight: 10 }}
+          style={buttonStyle}
           onPress={() => params.handleAddDescription()}
         >
-          <Text style={{ fontSize: 20 }}>Save</Text>
+          <Text style={textButtonStyle}>Save</Text>
         </TouchableHighlight>
+        // <Button style={{padding : 10}} onPress={() => params.handleAddDescription()}>Save</Button>
       )
     };
   };
@@ -52,7 +49,7 @@ class UserDescription extends React.Component {
           autoCorrect={false}
           onChangeText={this.handleUserTypingDescription}
           value={this.state.description}
-          style={{ height: 600, borderWidth: 0 }}
+          style={{ height: 600, borderWidth: 0, fontSize: 15 }}
           multiline={true}
           numberOfLines={100}
           editable
@@ -62,6 +59,19 @@ class UserDescription extends React.Component {
     );
   }
 }
+
+const styles = {
+  buttonStyle: {
+    padding: 10,
+    borderRadius: 15,
+    backgroundColor: "#67BBE1",
+    marginRight: 10
+  },
+  textButtonStyle: {
+    fontSize: 15,
+    color: "#ffffff"
+  }
+};
 
 const mapStateToProps = state => {
   const userProfile = state.userProfile;
