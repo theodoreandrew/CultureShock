@@ -4,7 +4,7 @@ import { View, Text } from "react-native";
 /**
  * This is the Header that contains title of each page.
  */
-const Header = () => {
+const Logo = () => {
   const { containerStyle, textStyle } = styles;
 
   return (
@@ -31,4 +31,4 @@ const styles = {
   }
 };
 
-export default Header;
+export default Logo;

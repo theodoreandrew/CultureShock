@@ -9,9 +9,9 @@ import {
   InputField,
   Spinner,
   TextError
-} from "./common";
-import { inputUpdate, signUserUp } from "../actions";
-import { emailFollowsRegex } from "../util/Validation";
+} from "../common";
+import { inputUpdate, signUserUp } from "../../actions";
+import { emailFollowsRegex } from "../../util/Validation";
 
 class RegistrationForm extends React.Component {
   state = {
@@ -208,11 +208,7 @@ class RegistrationForm extends React.Component {
 
   render() {
     return (
-      <Container style={{ marginTop: 10 }}>
-        {/* <CardSection>
-          <ProfilePic />
-        </CardSection> */}
-
+      <Container style={{ marginTop: 50 }}>
         <CardSection>
           {this.renderErrorFirstName()}
           <InputField

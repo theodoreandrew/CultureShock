@@ -39,8 +39,8 @@ export const signUserUp = (firstName, lastName, email, password) => {
       .then(user => {
         dispatch(handleAuthSuccess(user));
         registerName(firstName, lastName); // Change name according to user input
-        Actions.main(); // Navigate to home feed page if sign up is successful
-        Actions.welcomePage({ user, firstName, lastName });
+        Actions.userInit(); // Navigate to home feed page if sign up is successful
+        // Actions.welcomePage({ firstName, lastName });
       })
       .catch(() => {
         dispatch(
@@ -77,7 +77,14 @@ export const signUserIn = (email, password) => {
 };
 
 const registerName = (firstName, lastName) => {
-  const currentUser = firebase.auth().currentUser;
+  const { currentUser } = firebase.auth();
+
+  firebase
+    .database()
+    .ref(`users/${currentUser.uid}`)
+    .set({
+      fullName: firstName + " " + lastName
+    });
 
   return currentUser.updateProfile({
     displayName: firstName + " " + lastName

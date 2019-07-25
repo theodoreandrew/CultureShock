@@ -10,9 +10,9 @@ import {
   Button,
   Spinner,
   TextError
-} from "./common";
-import Header from "./Header";
-import { inputUpdate, inputWhenNavigate, signUserIn } from "../actions";
+} from "../common";
+import Logo from "../Logo";
+import { inputUpdate, inputWhenNavigate, signUserIn } from "../../actions";
 
 class LoginForm extends React.Component {
   state = { isEmailValid: null, isPasswordValid: null };
@@ -81,7 +81,7 @@ class LoginForm extends React.Component {
 
     return (
       <Container>
-        <Header />
+        <Logo />
         <CardSection style={{ marginBottom: 5 }}>
           {this.renderErrorEmail()}
           <InputField
@@ -111,13 +111,13 @@ class LoginForm extends React.Component {
         </CardSection>
 
         <View style={{ alignSelf: "center" }}>
-          <Text style={{ fontSize: 15 }}>
+          <Text style={{ textAlign: "center", fontSize: 15 }}>
             Don't have account?{"\n"}
             <Text
-              style={{ color: "blue", fontSize: 15, alignContent: "center" }}
+              style={styles.signUpTextStyle}
               onPress={this.onSignupNavigationPress}
             >
-              Sign up here
+              Sign up here {"\n\n"}
             </Text>
           </Text>
         </View>
@@ -132,6 +132,11 @@ const styles = {
     fontSize: 18,
     alignSelf: "center",
     marginBottom: 15
+  },
+  signUpTextStyle: {
+    textAlign: "center",
+    color: "blue",
+    fontSize: 23
   }
 };
 
