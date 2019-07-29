@@ -1,9 +1,10 @@
 import React from "react";
-import { Router, Scene } from "react-native-router-flux";
+import { Router, Scene, Actions } from "react-native-router-flux";
 
 import LoginForm from "./components/auth/LoginForm";
 import RegistrationForm from "./components/auth/RegistrationForm";
-import PostList from "./components/PostList";
+import PostList from "./components/main/PostList";
+import PostAdd from "./components/main/PostAdd";
 import WelcomePage from "./components/user_init/WelcomePage";
 import UserDescription from "./components/user_init/UserDescription";
 
@@ -43,7 +44,14 @@ const RouterComponent = () => {
         </Scene>
 
         <Scene key="main">
-          <Scene key="postList" component={PostList} title="Home Feed" />
+          <Scene
+            key="postList"
+            component={PostList}
+            title="Home Feed"
+            rightTitle="Add"
+            onRight={() => Actions.postAdd()}
+          />
+          <Scene key="postAdd" component={PostAdd} title="Add Post" />
         </Scene>
       </Scene>
     </Router>

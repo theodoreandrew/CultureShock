@@ -8,7 +8,6 @@ import {
   AUTH_NAV
 } from "./Types";
 import { Actions } from "react-native-router-flux";
-// import console = require("console");
 
 export const inputUpdate = ({ prop, value }) => {
   return {
@@ -40,7 +39,6 @@ export const signUserUp = (firstName, lastName, email, password) => {
         dispatch(handleAuthSuccess(user));
         registerName(firstName, lastName); // Change name according to user input
         Actions.userInit(); // Navigate to home feed page if sign up is successful
-        // Actions.welcomePage({ firstName, lastName });
       })
       .catch(() => {
         dispatch(
@@ -102,15 +100,6 @@ const handleAuthSuccess = user => {
     type: AUTH_SUCCESS,
     payload: user
   };
-};
-
-const authSuccess = (dispatch, user) => {
-  dispatch({
-    type: AUTH_SUCCESS,
-    payload: user
-  });
-
-  Actions.main();
 };
 
 /**

@@ -1,11 +1,11 @@
 import React from "react";
-import { View, Text, TextInput, TouchableHighlight } from "react-native";
 import { connect } from "react-redux";
+import { View, TextInput, TouchableHighlight, Text } from "react-native";
 
-import { addDescription } from "../../actions/UserActions";
+import { addPost } from "../../actions/PostActions";
 
-class UserDescription extends React.Component {
-  state = { description: "" };
+class PostAdd extends React.Component {
+  state = { post: "" };
 
   static navigationOptions = ({ navigation }) => {
     const { buttonStyle, textButtonStyle } = styles;
@@ -13,11 +13,11 @@ class UserDescription extends React.Component {
     return {
       headerRight: (
         <TouchableHighlight
-          title="Save"
+          title="Add"
           style={buttonStyle}
-          onPress={() => params.handleAddDescription()}
+          onPress={() => params.handleAddPost()}
         >
-          <Text style={textButtonStyle}>Save</Text>
+          <Text style={textButtonStyle}>Add</Text>
         </TouchableHighlight>
       )
     };
@@ -25,18 +25,17 @@ class UserDescription extends React.Component {
 
   componentDidMount() {
     this.props.navigation.setParams({
-      handleAddDescription: this._handleAddDescription
+      handleAddPost: this._handleAddPost
     });
   }
 
-  _handleAddDescription = () => {
-    const { description } = this.state;
-
-    this.props.addDescription(description);
+  _handleAddPost = () => {
+    const { post } = this.state;
+    this.props.addPost(post);
   };
 
-  handleUserTypingDescription = description => {
-    this.setState({ description });
+  handleUserTypingDescription = post => {
+    this.setState({ post });
   };
 
   render() {
@@ -50,7 +49,7 @@ class UserDescription extends React.Component {
           multiline={true}
           numberOfLines={100}
           editable
-          placeholder={"Add Description"}
+          placeholder={"What's on your mind?"}
         />
       </View>
     );
@@ -71,12 +70,12 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-  const userProfile = state.userProfile;
+  const posts = state.posts;
 
-  return { userProfile };
+  return { posts };
 };
 
 export default connect(
   mapStateToProps,
-  { addDescription }
-)(UserDescription);
+  { addPost }
+)(PostAdd);

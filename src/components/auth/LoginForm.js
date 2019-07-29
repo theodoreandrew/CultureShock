@@ -72,7 +72,23 @@ class LoginForm extends React.Component {
       return <Spinner size="large" />;
     }
 
-    return <Button onPress={this.onButtonPress}>Login</Button>;
+    return (
+      <View>
+        <Button onPress={this.onButtonPress}>Login</Button>
+
+        <View style={{ alignSelf: "center", marginTop: 20 }}>
+          <Text style={{ textAlign: "center", fontSize: 15 }}>
+            Don't have account?{"\n"}
+            <Text
+              style={styles.signUpTextStyle}
+              onPress={this.onSignupNavigationPress}
+            >
+              Sign up here {"\n\n"}
+            </Text>
+          </Text>
+        </View>
+      </View>
+    );
   };
 
   render() {
@@ -109,18 +125,6 @@ class LoginForm extends React.Component {
           <Text style={styles.textErrorStyle}>{this.props.errorSignIn}</Text>
           {this.renderButton()}
         </CardSection>
-
-        <View style={{ alignSelf: "center" }}>
-          <Text style={{ textAlign: "center", fontSize: 15 }}>
-            Don't have account?{"\n"}
-            <Text
-              style={styles.signUpTextStyle}
-              onPress={this.onSignupNavigationPress}
-            >
-              Sign up here {"\n\n"}
-            </Text>
-          </Text>
-        </View>
       </Container>
     );
   }
